@@ -1,0 +1,34 @@
+{
+  "reviews": [
+    {
+      "professor": "Prof1",
+      "review": "Great professor...",
+      "subject": "Math",
+      "stars": 5
+    },
+    {
+      "professor": "Prof4",
+      "review": "Good professor...",
+      "subject": "Science",
+      "stars": 4
+    },
+    {
+      "professor": "Prof2",
+      "review": "Okay professor...",
+      "subject": "History",
+      "stars": 3
+    },
+    {
+      "professor": "Prof3",
+      "review": "Worst professor...",
+      "subject": "English",
+      "stars": 1
+    },
+    {
+      "professor": "Prof5",
+      "review": "Bad professor...",
+      "subject": "Art",
+      "stars": 2
+    },
+  ]
+}
