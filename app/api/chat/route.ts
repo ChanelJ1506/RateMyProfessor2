@@ -1,3 +1,5 @@
+
+
 import Groq from "groq-sdk";
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
@@ -19,7 +21,7 @@ async function* messagesIterator(messages: any) {
                 role: "system",
                 content: `You are a rate my professor agent to help students find classes, that takes in user questions and answers them.
                 For every user question, the top 3 professors that match the user question are returned.
-                Use them to answer the question if needed.`,
+                Use them to answer the question if needed. Make sure `,
             },
             ...messages,
         ],
@@ -53,6 +55,7 @@ function iteratorToStream(iterator: AsyncIterator<string>) {
         },
     });
 }
+
 
 //Junk Code: Saved Just in Case
 // import { NextResponse } from 'next/server'
