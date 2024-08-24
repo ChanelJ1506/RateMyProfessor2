@@ -1,34 +1,64 @@
 {
   "reviews": [
     {
-      "professor": "Prof1",
-      "review": "Great professor...",
-      "subject": "Math",
+      "professor": "Dr. Alice Johnson",
+      "review": "An amazing professor who truly cares about her students. Her lectures are clear and well-organized.",
+      "subject": "Mathematics",
       "stars": 5
     },
     {
-      "professor": "Prof4",
-      "review": "Good professor...",
-      "subject": "Science",
+      "professor": "Prof. Michael Smith",
+      "review": "Engaging and insightful. He makes complex topics easy to understand.",
+      "subject": "Physics",
       "stars": 4
     },
     {
-      "professor": "Prof2",
-      "review": "Okay professor...",
+      "professor": "Dr. Emily Davis",
+      "review": "A bit challenging, but worth the effort. She pushes students to think critically.",
+      "subject": "Philosophy",
+      "stars": 4
+    },
+    {
+      "professor": "Prof. John Williams",
+      "review": "Not very helpful during office hours, and the lectures can be dry.",
+      "subject": "Chemistry",
+      "stars": 2
+    },
+    {
+      "professor": "Dr. Laura Brown",
+      "review": "Fantastic lecturer with a deep understanding of the subject. Highly recommend!",
+      "subject": "Biology",
+      "stars": 5
+    },
+    {
+      "professor": "Prof. James Wilson",
+      "review": "A decent professor, but sometimes the material is hard to follow.",
       "subject": "History",
       "stars": 3
     },
     {
-      "professor": "Prof3",
-      "review": "Worst professor...",
-      "subject": "English",
-      "stars": 1
+      "professor": "Dr. Sarah Miller",
+      "review": "Really enjoyed her class. She’s very passionate about the subject.",
+      "subject": "Literature",
+      "stars": 4
     },
     {
-      "professor": "Prof5",
-      "review": "Bad professor...",
+      "professor": "Prof. Robert Taylor",
+      "review": "The class is easy, but not very stimulating. Good if you need an easy grade.",
       "subject": "Art",
-      "stars": 2
+      "stars": 3
     },
+    {
+      "professor": "Dr. Jessica Lee",
+      "review": "Very organized and clear in her explanations. Great professor overall.",
+      "subject": "Computer Science",
+      "stars": 5
+    },
+    {
+      "professor": "Prof. David Martinez",
+      "review": "Hard grader, but you’ll learn a lot if you put in the effort.",
+      "subject": "Economics",
+      "stars": 4
+    }
   ]
 }
