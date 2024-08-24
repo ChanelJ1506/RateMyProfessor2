@@ -14,3 +14,20 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.sign-in-card {
+  background-color: #ffffff; 
+}
+
+.sign-in-button {
+  background-color: #5e35b1;
+  color: #ffffff;
+  &:hover {
+    background-color: #512da8;
+  }
+}
+
+.sign-in-input {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
