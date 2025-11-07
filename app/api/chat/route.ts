@@ -1,38 +1,70 @@
 import Groq from "groq-sdk";
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+
+const groq = new Groq({ 
+    apiKey: process.env.GROQ_API_KEY 
+});
 
 export async function POST(request: Request) {
-    const data = await request.json();
-    const messages = data.messages;
-    if (!messages) return Response.json({ error: "No messages provided" });
+    try {
+        const data = await request.json();
+        const messages = data.messages;
+        
+        if (!messages || !Array.isArray(messages) || messages.length === 0) {
+            return Response.json({ error: "No messages provided" }, { status: 400 });
+        }
 
-    const iterator = messagesIterator(messages);
-    const stream = iteratorToStream(iterator);
+        if (!process.env.GROQ_API_KEY) {
+            return Response.json({ error: "API key not configured" }, { status: 500 });
+        }
 
-    return new Response(stream);
+        const iterator = messagesIterator(messages);
+        const stream = iteratorToStream(iterator);
+
+        return new Response(stream, {
+            headers: {
+                'Content-Type': 'text/event-stream',
+                'Cache-Control': 'no-cache',
+                'Connection': 'keep-alive',
+            },
+        });
+    } catch (error) {
+        console.error("Error in POST handler:", error);
+        return Response.json({ 
+            error: "Failed to process request",
+            details: error instanceof Error ? error.message : "Unknown error"
+        }, { status: 500 });
+    }
 }
 
 async function* messagesIterator(messages: any) {
-    const chatCompletion = await groq.chat.completions.create({
-        messages: [
-            {
-                role: "system",
-                content: `You are a rate my professor agent to help students find classes, that takes in user questions and answers them.
-                For every user question, the top 3 professors that match the user question are returned.
-                Use them to answer the question if needed. Make sure to keep the text concise and paragraphed.`,
-            },
-            ...messages,
-        ],
-        model: "mixtral-8x7b-32768",
-        temperature: 1,
-        max_tokens: 2048,
-        top_p: 1,
-        stream: true,
-        stop: null,
-    });
+    try {
+        const chatCompletion = await groq.chat.completions.create({
+            messages: [
+                {
+                    role: "system",
+                    content: `You are a rate my professor agent to help students find classes, that takes in user questions and answers them.
+                    For every user question, the top 3 professors that match the user question are returned.
+                    Use them to answer the question if needed. Make sure to keep the text concise and paragraphed.`,
+                },
+                ...messages,
+            ],
+            model: "llama-3.3-70b-versatile",
+            temperature: 1,
+            max_tokens: 2048,
+            top_p: 1,
+            stream: true,
+            stop: null,
+        });
 
-    for await (const chunk of chatCompletion) {
-        yield chunk.choices[0]?.delta?.content || "";
+        for await (const chunk of chatCompletion) {
+            const content = chunk.choices[0]?.delta?.content || "";
+            if (content) {
+                yield content;
+            }
+        }
+    } catch (error) {
+        console.error("Error in messagesIterator:", error);
+        yield `Error: ${error instanceof Error ? error.message : "Unknown error occurred"}`;
     }
 }
 
@@ -40,16 +72,19 @@ function iteratorToStream(iterator: AsyncIterator<string>) {
     const encoder = new TextEncoder();
     return new ReadableStream({
         async start(controller) {
-            async function push() {
-                const { done, value } = await iterator.next();
-                if (done) {
-                    controller.close();
-                    return;
+            try {
+                while (true) {
+                    const { done, value } = await iterator.next();
+                    if (done) {
+                        controller.close();
+                        break;
+                    }
+                    controller.enqueue(encoder.encode(value));
                 }
-                controller.enqueue(encoder.encode(value));
-                push();
+            } catch (error) {
+                console.error("Error in stream:", error);
+                controller.error(error);
             }
-            push();
         },
     });
 }
