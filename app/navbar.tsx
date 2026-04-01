@@ -154,7 +154,7 @@ export default function Navbar() {
               color="inherit"
               onClick={toggleDrawer}
               sx={{
-                color: '#000000', 
+                color: '#ffffff', 
                 fontSize: '2rem',
                 position: 'absolute',
                 right: 30,
@@ -247,6 +247,7 @@ export default function Navbar() {
     </Box>
   );
 }
+
 
 
 
